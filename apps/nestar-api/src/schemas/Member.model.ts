@@ -76,6 +76,16 @@ const MemberSchema = new Schema(
 			default: '',
 		},
 
+		memberPoints: {
+			type: Number,
+			default: 0,
+		},
+
+		memberLikes: {
+			type: Number,
+			default: 0,
+		},
+
 		memberViews: {
 			type: String,
 			default: '',
