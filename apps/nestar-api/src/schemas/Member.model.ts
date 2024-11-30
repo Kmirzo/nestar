@@ -58,22 +58,22 @@ const MemberSchema = new Schema(
 
 		memberProperties: {
 			type: Number,
-			default: '',
+			default: 0,
 		},
 
 		memberArticles: {
-			type: String,
-			default: '',
+			type: Number,
+			default: 0,
 		},
 
 		memberFollowers: {
-			type: String,
-			default: '',
+			type: Number,
+			default: 0,
 		},
 
 		memberFollowings: {
-			type: String,
-			default: '',
+			type: Number,
+			default: 0,
 		},
 
 		memberPoints: {
@@ -87,28 +87,28 @@ const MemberSchema = new Schema(
 		},
 
 		memberViews: {
-			type: String,
-			default: '',
+			type: Number,
+			default: 0,
 		},
 
 		memberComments: {
-			type: String,
-			default: '',
+			type: Number,
+			default: 0,
 		},
 
 		memberRank: {
-			type: String,
-			default: '',
+			type: Number,
+			default: 0,
 		},
 
 		memberWarnings: {
-			type: String,
-			default: '',
+			type: Number,
+			default: 0,
 		},
 
 		memberBlocks: {
-			type: String,
-			default: '',
+			type: Number,
+			default: 0,
 		},
 
 		deletedAt: {

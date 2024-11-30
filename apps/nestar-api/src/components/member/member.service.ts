@@ -12,11 +12,12 @@ export class MemberService {
 
 	public async signup(input: MemberInput): Promise<Member> {
 		// TODO: Hash password
-
 		try {
+			console.log('keyiiin');
 			const result = await this.memberModel.create(input);
-			// TODO: Authentication via Token
+			console.log('oldiiin');
 
+			// TODO: Authentication via Token
 			return result;
 		} catch (err) {
 			console.log('Error, Service.model:', err);
@@ -28,7 +29,7 @@ export class MemberService {
 		const { memberNick, memberPassword } = input;
 		const response: Member = await this.memberModel
 			.findOne({ memberNick: memberNick })
-			.select('+memberPAssword')
+			.select('+memberPassword')
 			.exec();
 
 		if (!response || response.memberStatus === MemberStatus.DELETE) {
@@ -41,7 +42,6 @@ export class MemberService {
 
 		const isMatch = memberPassword === response.memberPassword;
 		if (!isMatch) throw new InternalServerErrorException(Message.WRONG_PASSWORD);
-
 		return response;
 	}
 
