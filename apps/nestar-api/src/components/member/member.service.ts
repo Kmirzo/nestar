@@ -13,9 +13,7 @@ export class MemberService {
 	public async signup(input: MemberInput): Promise<Member> {
 		// TODO: Hash password
 		try {
-			console.log('keyiiin');
 			const result = await this.memberModel.create(input);
-			console.log('oldiiin');
 
 			// TODO: Authentication via Token
 			return result;
@@ -38,7 +36,6 @@ export class MemberService {
 			throw new InternalServerErrorException(Message.BLOCKED_USER);
 
 		// TODO: Compare password
-		console.log('respone:', response);
 
 		const isMatch = memberPassword === response.memberPassword;
 		if (!isMatch) throw new InternalServerErrorException(Message.WRONG_PASSWORD);
