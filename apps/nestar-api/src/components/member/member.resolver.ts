@@ -7,25 +7,25 @@ import { Member } from '../../libs/dto/member/member';
 export class MemberResolver {
 	constructor(private readonly memberService: MemberService) {}
 
-	@Mutation(() => Member)
+	@Mutation(() => Member) // POST method
 	public async signup(@Args('input') input: MemberInput): Promise<Member> {
 		console.log('Mutation: signup');
 		return this.memberService.signup(input);
 	}
 
-	@Mutation(() => Member)
+	@Mutation(() => Member) // POST method
 	public async login(@Args('input') input: LoginInput): Promise<Member> {
 		console.log('Mutation: login');
 		return this.memberService.login(input);
 	}
 
-	@Mutation(() => String)
+	@Mutation(() => String) // POST method
 	public async updateMember(): Promise<string> {
 		console.log('Mutation: updateMember');
 		return this.memberService.updateMember();
 	}
 
-	@Query(() => String)
+	@Query(() => String) // GET method
 	public async getMember(): Promise<string> {
 		console.log('Query: getMember');
 		return this.memberService.getMember();
