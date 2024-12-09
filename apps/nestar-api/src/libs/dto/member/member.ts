@@ -1,5 +1,5 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { ObjectId } from 'mongoose';
+import { ObjectId } from 'mongodb';
 import { MemberAuthType, MemberStatus, MemberType } from '../../enums/member.enum';
 
 @ObjectType()
