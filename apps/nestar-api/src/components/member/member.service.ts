@@ -92,7 +92,7 @@ export class MemberService {
 			// FolowedByMe
 		}
 		//errorrr
-		return targetMember;
+		return targetMember; // as Member if there will be err inthe future
 	}
 
 	public async getAgents(memberId: ObjectId, input: AgentsInquiry): Promise<Members> {
