@@ -1,4 +1,4 @@
-import { ObjectId } from 'mongodb';
+import { ObjectId } from 'mongoose';
 
 export interface T {
 	[key: string]: any;
@@ -6,6 +6,6 @@ export interface T {
 
 export interface StatisticModifier {
 	_id: ObjectId;
-	targetKey: string;
+	targetKey: string; // we can put here uniontype like { memberProperties | memberViews | memberFollowers | memberLikes} and mark it in propertyService targetKey
 	modifier: number;
 }
