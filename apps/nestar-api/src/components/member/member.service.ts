@@ -163,7 +163,7 @@ export class MemberService {
 			.findByIdAndUpdate(
 				_id,
 				{
-					$inc: { [targetKey]: modifier },
+					$inc: { [targetKey]: modifier }, // ixtiyoriy targetni (dataSet: number, follower, points, views, likes )  keyini yangilab beradi
 				},
 				{ new: true },
 			)
