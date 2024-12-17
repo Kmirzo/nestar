@@ -2,7 +2,11 @@ import { BadRequestException, Injectable, InternalServerErrorException } from '@
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, ObjectId } from 'mongoose';
 import { BoardArticle, BoardArticles } from '../../libs/dto/board-article/board-article';
-import { BoardArticleInput, BoardArticlesInquiry } from '../../libs/dto/board-article/board-article.input';
+import {
+	AllBoardArticlesInquiry,
+	BoardArticleInput,
+	BoardArticlesInquiry,
+} from '../../libs/dto/board-article/board-article.input';
 import { MemberService } from '../member/member.service';
 import { ViewService } from '../view/view.service';
 import { Direction, Message } from '../../libs/enums/common.enum';
@@ -60,19 +64,6 @@ export class BoardArticleService {
 		return targetBoardArticle;
 	}
 
-	public async boardArticleStatsEditor(input: StatisticModifier): Promise<BoardArticle> {
-		const { _id, targetKey, modifier } = input;
-		return await this.boardArticleModel
-			.findByIdAndUpdate(
-				_id,
-				{
-					$inc: { [targetKey]: modifier }, // ixtiyoriy targetni (dataSet: number, follower, points, views, likes ) ixtiyoriy KEYini yangilab beradi
-				},
-				{ new: true },
-			)
-			.exec();
-	}
-
 	public async updateBoardArticle(memberId: ObjectId, input: BoardArticleUpdate): Promise<BoardArticle> {
 		const { _id, articleStatus } = input;
 
@@ -127,5 +118,78 @@ export class BoardArticleService {
 		if (!result.length) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
 
 		return result[0];
+	}
+
+	public async getAllBoardArticlesByAdmin(input: AllBoardArticlesInquiry): Promise<BoardArticles> {
+		const { articleStatus, articleCategory } = input.search;
+		const match: T = {};
+		const sort: T = { [input?.sort ?? 'createdAt']: input?.direction ?? Direction.DESC }; // Default sort
+
+		if (articleStatus) match.articleStatus = articleStatus;
+		if (articleCategory) match.articleCategory = articleCategory;
+
+		const result = await this.boardArticleModel
+			.aggregate([
+				{ $match: match },
+				{ $sort: sort },
+				{
+					$facet: {
+						list: [
+							{ $skip: (input.page - 1) * input.limit },
+							{ $limit: input.limit }, // [property1 , proeprty2]
+							lookupMember, // member malumotlarini => [memberData] ga joylayapmiz
+							{ $unwind: { path: '$memberData' } }, //  (preserveNullAndEmptyArrays: true)
+						],
+						metaCounter: [{ $count: 'total' }],
+					},
+				},
+			])
+			.exec();
+		if (!result.length) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
+
+		return result[0];
+	}
+
+	public async updateBoardArticleByAdmin(input: BoardArticleUpdate): Promise<BoardArticle> {
+		const { _id, articleStatus } = input;
+
+		const result = await this.boardArticleModel
+			.findByIdAndUpdate({ _id: _id, articleStatus: BoardArticleStatus.ACTIVE }, input, {
+				new: true,
+			})
+			.exec();
+
+		if (!result) throw new InternalServerErrorException(Message.UPDATE_FAILED);
+
+		if (articleStatus === BoardArticleStatus.DELETE) {
+			await this.memberService.memberStatsEditor({
+				_id: result.memberId,
+				targetKey: 'memberArticles',
+				modifier: -1,
+			});
+		}
+		return result;
+	}
+
+	public async removeBoardArticleByAdmin(articleId: ObjectId): Promise<BoardArticle> {
+		const search: T = { _id: articleId, articleStatus: BoardArticleStatus.DELETE };
+		const result = await this.boardArticleModel.findOneAndDelete(search).exec();
+		if (!result) throw new InternalServerErrorException(Message.REMOVE_FAILED);
+
+		return result;
+	}
+
+	// StatsEditor
+	public async boardArticleStatsEditor(input: StatisticModifier): Promise<BoardArticle> {
+		const { _id, targetKey, modifier } = input;
+		return await this.boardArticleModel
+			.findByIdAndUpdate(
+				_id,
+				{
+					$inc: { [targetKey]: modifier }, // ixtiyoriy targetni (dataSet: number, follower, points, views, likes ) ixtiyoriy KEYini yangilab beradi
+				},
+				{ new: true },
+			)
+			.exec();
 	}
 }
