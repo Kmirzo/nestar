@@ -30,7 +30,6 @@ export class PropertyResolver {
 	): Promise<Property> {
 		console.log('Mutation: createProperty');
 		input.memberId = memberId;
-
 		return await this.propertyService.createProperty(input);
 	}
 
