@@ -64,6 +64,8 @@ export class PropertyService {
 			}
 
 			// meLiked
+			const liketInput = { memberId: memberId, likeRefId: propertyId, likeGroup: LikeGroup.MEMBER };
+			targetProperty.meLiked = await this.likeService.checkLikeExistence(liketInput);
 		}
 
 		targetProperty.memberData = await this.memberService.getMember(null, targetProperty.memberId);
