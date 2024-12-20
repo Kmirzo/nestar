@@ -21,7 +21,7 @@ import * as path from 'path';
 export const validMimeTypes = ['image/png', 'image/jpg', 'image/jpeg'];
 export const getSerialForImage = (filename: string) => {
 	const ext = path.parse(filename).ext;
-	return uuidv4() + ext;
+	return uuidv4() + ext; // jibrish name => jpg.png.jpeg
 };
 
 export const shapeIntoMongoObjectId = (target: any) => {

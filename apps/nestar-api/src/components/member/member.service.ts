@@ -87,12 +87,11 @@ export class MemberService {
 				await this.memberModel.findOneAndUpdate(search, { $inc: { memberViews: 1 } }, { new: true }).exec();
 				targetMember.memberViews++;
 			}
-
 			// LikedByMe
 			// FolowedByMe
 		}
 		//errorrr
-		return targetMember; // as Member if there will be err inthe future
+		return targetMember; // (asMember) if there will be err in the future
 	}
 
 	public async getAgents(memberId: ObjectId, input: AgentsInquiry): Promise<Members> {

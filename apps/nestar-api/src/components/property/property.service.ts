@@ -109,7 +109,7 @@ export class PropertyService {
 				{
 					$facet: {
 						list: [
-							{ $skip: (input.page - 1) * input.limit },
+							{ $skip: (input.page - 1) * input.limit }, // page 1 ga teng 1-1=0 0*n=0 skip=0
 							{ $limit: input.limit },
 							// meLiked
 							lookupMember,
