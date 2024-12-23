@@ -18,10 +18,10 @@ import { LikeService } from '../like/like.service';
 @Injectable()
 export class MemberService {
 	constructor(
-		@InjectModel('Member') private readonly memberModel: Model<Member>,
-		private authService: AuthService,
-		private viewService: ViewService,
-		private likeService: LikeService,
+		@InjectModel('Member') private readonly memberModel: Model<Member>, // type=CLASS
+		private authService: AuthService, // type=OBJECT
+		private viewService: ViewService, // type=OBJECT
+		private likeService: LikeService, // type=OBJECT
 	) {}
 
 	public async signup(input: MemberInput): Promise<Member> {

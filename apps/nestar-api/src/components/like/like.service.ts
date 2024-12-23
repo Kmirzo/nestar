@@ -9,7 +9,7 @@ import { Member } from '../../libs/dto/member/member';
 
 @Injectable()
 export class LikeService {
-	constructor(@InjectModel('Like') private readonly likeModel: Model<Like>) {}
+	constructor(@InjectModel('Like') private readonly likeModel: Model<Like>) {} // type= CLASS
 
 	public async toggleLike(input: LikeInput): Promise<number> {
 		const search: T = { memberId: input.memberId, likeRefId: input.likeRefId },
