@@ -36,3 +36,21 @@ export const lookupMember = {
 		as: 'memberData', // 4 uning qiymatini memberData bn belgilashni takidlayabmiz
 	},
 };
+
+export const lookupFollowingData = {
+	$lookup: {
+		from: 'members', // 2 members collectiondan
+		localField: 'followingId', // 1 memberId ni qolga olib
+		foreignField: '_id', // 3 id nomi bn oxtaryabmiz agar topsak
+		as: 'followingData', // 4 uning qiymatini memberData bn belgilashni takidlayabmiz
+	},
+};
+
+export const lookupFollowerData = {
+	$lookup: {
+		from: 'members', // 2 members collectiondan
+		localField: 'followerId', // 1 memberId ni qolga olib
+		foreignField: '_id', // 3 id nomi bn oxtaryabmiz agar topsak
+		as: 'followerData', // 4 uning qiymatini memberData bn belgilashni takidlayabmiz
+	},
+};
