@@ -104,8 +104,9 @@ export class FollowService {
 							//meFollowed
 							lookupAuthMemberFollowed({ followerId: memberId, followingId: '$followerId' }),
 							lookupFollowerData,
-							{ $unwind: { path: '$followingData', preserveNullAndEmptyArrays: true } },
+							{ $unwind: '$followerData' },
 						],
+						// { path: '$followingData', preserveNullAndEmptyArrays: true }
 						metaCounter: [{ $count: 'total' }],
 					},
 				},

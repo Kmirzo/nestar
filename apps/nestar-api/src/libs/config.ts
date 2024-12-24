@@ -86,7 +86,7 @@ export const lookupAuthMemberFollowed = (input: LookupAuthMemberFollowed) => {
 				},
 				{
 					$project: {
-						_id: 0,
+						_id: 0, // DOCS ID x
 						followerId: 1,
 						followingId: 1,
 						myFollowing: '$$localMyFavorite',
@@ -122,5 +122,14 @@ export const lookupFollowerData = {
 		localField: 'followerId', // 1 memberId ni qolga olib
 		foreignField: '_id', // 3 id nomi bn oxtaryabmiz agar topsak
 		as: 'followerData', // 4 uning qiymatini memberData bn belgilashni takidlayabmiz
+	},
+};
+
+export const lookupFavorite = {
+	$lookup: {
+		from: 'members', // 2 members collectiondan
+		localField: 'favoriteProperty.memberId', // 1 memberId ni qolga olib
+		foreignField: '_id', // 3 id nomi bn oxtaryabmiz agar topsak
+		as: 'favoriteProperty.memberData', // 4 uning qiymatini memberData bn belgilashni takidlayabmiz
 	},
 };
