@@ -133,3 +133,11 @@ export const lookupFavorite = {
 		as: 'favoriteProperty.memberData', // 4 uning qiymatini memberData bn belgilashni takidlayabmiz
 	},
 };
+export const lookupVisit = {
+	$lookup: {
+		from: 'members', // 2 members collectiondan
+		localField: 'visitedProperty.memberId', // 1 memberId ni qolga olib
+		foreignField: '_id', // 3 id nomi bn oxtaryabmiz agar topsak
+		as: 'visitedProperty.memberData', // 4 uning qiymatini memberData bn belgilashni takidlayabmiz
+	},
+};
